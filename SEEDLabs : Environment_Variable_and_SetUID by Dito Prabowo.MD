@@ -371,4 +371,42 @@ kita telah mengetahui bagaimana PATH env mempengaruhi perilaku system(), karena 
 
 Bob works for an auditing agency, and he needs to investigate a company for a suspected fraud. For the investigation purpose, Bob needs to be able to read all the files in the company’s Unix system; on the other hand, to protect the integrity of the system, Bob should not be able to modify any file. To achieve this goal, Vince, the superuser of the system, wrote a special set-root-uid program (see below), and then gave the executable permission to Bob. This program requires Bob to type a file name at the command line, and then it will run /bin/cat to display the specified file. Since the program is running as a root, it can display any file Bob specifies. However, since the program has no write operations, Vince is very sure that Bob cannot use this special program to modify any file.
 
+```objective-c
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    char *v[3];
+    char *command;
+
+    if(argc < 2) {
+        printf("Please type a file name.\n");
+        return 1;
+    }
+
+    v[0] = "/bin/cat"; v[1] = argv[1]; v[2] = NULL;
+
+    command = malloc(strlen(v[0]) + strlen(v[1]) + 2);
+    sprintf(command, "%s %s", v[0], v[1]);
+
+    // Use only one of the followings.
+    system(command);
+    // execve(v[0], v, NULL);
+
+    return 0;
+}
+
 ```
+**
+
+#### Step 1
+
+kita compile program diatas, buat owner nya root, kemudian buat set-UID program.
+program akan menggunakan system() untuk memanggil perintah.
+
+"If you were Bob, can you compromise the integrity of the system? For example, can you remove a file that is not writable to you?"
+
+Ya, dapat dengan setuid program, kita bisa menjalankan privilage escalation untuk masuk ke dalam root user.
