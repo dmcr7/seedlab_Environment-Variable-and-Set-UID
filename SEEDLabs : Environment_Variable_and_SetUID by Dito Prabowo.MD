@@ -409,4 +409,91 @@ program akan menggunakan system() untuk memanggil perintah.
 
 "If you were Bob, can you compromise the integrity of the system? For example, can you remove a file that is not writable to you?"
 
-Ya, dapat dengan setuid program, kita bisa menjalankan privilage escalation untuk masuk ke dalam root user.
+
+![task8_1](images/task8_1.png)
+
+![task8_2](images/task8_2.png)
+
+ya, kita bisa remove, mv dan lain lain dengan root privilage jika kita menjalankan program diatas , dengan cara :
+
+    ./task8 "coba;mv coba coba_hacked"
+
+dengan memberikan semicolon pada namafile dan menambah baru command lainnya.
+
+![task8_3](images/task8_3.png)
+
+
+
+
+
+#### Step2
+
+comment out system(command) dan uncomment execve() statement; compile set owner root dan set-uid program
+
+hasil :
+
+![task8_4](images/task8_4.png)
+
+attack tidak bisa kita dilakukan
+
+
+***
+
+### Task 9: Capability Leaking
+
+```objective-c
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+
+void main()
+{
+    int fd;
+
+    // Assume that /etc/zzz is an important system file,
+    // and it is owned by root with permission 0644.
+    // Before running this program, you should creat
+    // the file /etc/zzz first.
+    fd = open("/etc/zzz", O_RDWR | O_APPEND);
+    if(fd == -1) {
+        printf("Cannot open /etc/zzz\n");
+        exit(0);
+    }
+
+    // Simulate the tasks conducted by the program
+    sleep(1);
+
+    // After the task, the root privilege are no longer needed,
+    // it's time to relinquish the root privileges permanently.
+    setuid(getuid());   // getuid() returns the real uid
+
+    if(fork()) {    // In the parent process
+        close(fd);
+        exit(0);
+    } else {    // in the child process
+        // Now, assume that the child process is compromised, malicious attackers
+        // have injected the following statements into this process
+
+        write(fd, "Malicious Data\n", 15);
+        close(fd);
+    }
+}
+```
+
+compile code diatas dengan root dan jalankan dengan normal user, apakah tulisan malicious data bisa tertulis?
+
+hasil :
+
+![](images/task9_1.png)
+![](images/task9_2.png)
+
+![](images/task9_3.png)
+
+berhail menulis malicious data, yey !
+
+
+***
+
+### 0x2 Extra
+
+For other seedlab project like binary overflow dll, please visit github.com/dmcr7 hehehe
