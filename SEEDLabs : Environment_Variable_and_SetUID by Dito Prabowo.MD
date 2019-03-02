@@ -11,11 +11,7 @@ Dalam Task ini, kita belajar untuk menampilkan Environment, perintah export dan 
 
 Menampilkan Environment : gunakan perintah    
 
-    printenv
-
-atau
-
-    env
+    printenv atau env
 
 Hasil :
 ![printenv atau env command](images/task1.png)
