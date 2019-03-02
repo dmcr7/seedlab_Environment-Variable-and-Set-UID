@@ -286,14 +286,17 @@ yang berarti ketika kita menjalankan set-uid program akan di countermeasure kita
 
 untuk bisa menjalankan set-UID program :
 
-    $ sudo rm /bin/sh
-    $ sudo ln -s /bin/zsh /bin/sh
+(1) kita link /bin/sh ke /bin/zsh
 
-hasil :
+![](images/task6_u1.png)
 
-![zhs](images/zsh.png)
+(2) kita coba jalankan program ls diatas dengan zsh
 
-program task6 diajalankan dengan shell dari seedlab yang katanya sudah di hilangkan countermeasure nya yaitu dengan zsh shell, tapi sama saja hasilnya dengan sebelumnya
+![](images/task6_u2.png)
+
+![](images/task6_u3.png)
+
+dengan shell zsh kita bisa mendapatkan root shel, tapi dengan shell asli dari ubuntu 16.04 kita tidak bisa mendapatkan shell root.
 
 ***
 
