@@ -370,6 +370,8 @@ kita telah mengetahui bagaimana PATH env mempengaruhi perilaku system(), karena 
 
 Bob works for an auditing agency, and he needs to investigate a company for a suspected fraud. For the investigation purpose, Bob needs to be able to read all the files in the company’s Unix system; on the other hand, to protect the integrity of the system, Bob should not be able to modify any file. To achieve this goal, Vince, the superuser of the system, wrote a special set-root-uid program (see below), and then gave the executable permission to Bob. This program requires Bob to type a file name at the command line, and then it will run /bin/cat to display the specified file. Since the program is running as a root, it can display any file Bob specifies. However, since the program has no write operations, Vince is very sure that Bob cannot use this special program to modify any file.
 
+(Bob bekerja untuk sebuah agensi audit, dan dia perlu untuk menginvestigasi sebuah perusahaan yang dicurigai melakukan penipuan. Untuk alasan investigasi, Bob memerlukan akses untuk membaca semua file dalam sistem Unix perusahaan; di sisi lain, untuk melindungi integritas sistem, Bob tidak boleh mengubah file apapun. Untuk mencapai tujuan ini, Vince, superuser dari sistem, menulis sebuah program set-root-uid khusus (lihat di bawah), dan memberikan izin eksekusi ke Bob. Program ini meminta Bob untuk menulis nama sebuah file di baris perintah dan akan menjalankan /bin/cat untuk menampilkan file yang ditentukan. Karena program berjalan sebagai sebuah root, program itu dapat menampilkan file apapun yang ditunjuk oleh Bob. Namun, karena program tidak memiliki operasi menulis, Vince sangat yakin bahwa Bob tidak dapat menggunakan program khusus ini untuk mengubah file apapun.)
+
 ```objective-c
 
 #include <string.h>
@@ -407,13 +409,14 @@ kita compile program diatas, buat owner nya root, kemudian buat set-UID program.
 program akan menggunakan system() untuk memanggil perintah.
 
 "If you were Bob, can you compromise the integrity of the system? For example, can you remove a file that is not writable to you?"
+(Jika kamu adalah Bob, apakah kamu dapat merusak integritas dari sistem? Sebagai contoh, bisakah kamu menghapus sebuah file yang tidak bisa kamu tulis?)
 
 
 ![task8_1](images/task8_1.png)
 
 ![task8_2](images/task8_2.png)
 
-ya, kita bisa remove, mv dan lain lain dengan root privilage jika kita menjalankan program diatas , dengan cara :
+ya, kita bisa remove, mv dan lain lain dengan root privilege jika kita menjalankan program diatas , dengan cara :
 
     ./task8 "coba;mv coba coba_hacked"
 
@@ -428,12 +431,13 @@ dengan memberikan semicolon pada namafile dan menambah baru command lainnya.
 #### Step2
 
 comment out system(command) dan uncomment execve() statement; compile set owner root dan set-uid program
+(ubah system(command) menjadi komentar dan hapus komentar di execve(); kompilasi ubah pemilik ke root dan program set-uid)
 
 hasil :
 
 ![task8_4](images/task8_4.png)
 
-attack tidak bisa kita dilakukan
+serangan tidak bisa kita dilakukan
 
 
 ***
